@@ -11,17 +11,17 @@ graphite:
     - "2003-2004:2003-2004"
     - "2023-2024:2023-2024"
 
-graphite_producer:
-  build: ./graphite_producer
-  links:
-    - graphite
-
 statsd:
   build: ./statsd/
   ports:
     - "8125:8125/udp"
   links:
     - graphite
+
+statsd_producer:
+  build: ./statsd_producer
+  links:
+    - statsd
 
 bosun:
   build: ./bosun/
