@@ -2,7 +2,9 @@ mail:
   image: catatnight/postfix
   ports:
     - "25:25"
-  env_file: ./mail/postfix.conf
+  environment:
+    - maildomain=mail.bosun.com
+    - smtp_user=bosun:bosun
 
 graphite:
   build: ./graphite/
