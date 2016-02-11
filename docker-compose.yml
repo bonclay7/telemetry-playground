@@ -19,4 +19,7 @@ mail:
   ports:
     - "25:25"
   env_file: ./mail/postfix.conf
-
+graphite_producer:
+  build: ./graphite_producer
+  links:
+    - statsd
