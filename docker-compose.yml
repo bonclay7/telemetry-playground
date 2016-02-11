@@ -1,25 +1,33 @@
-statsd:
-  image: hopsoft/graphite-statsd
+mail:
+  image: catatnight/postfix
+  ports:
+    - "25:25"
+  env_file: ./mail/postfix.conf
+
+graphite:
+  build: ./graphite/
   ports:
     - "80:80"
     - "2003-2004:2003-2004"
     - "2023-2024:2023-2024"
+
+graphite_producer:
+  build: ./graphite_producer
+  links:
+    - graphite
+
+statsd:
+  build: ./statsd/
+  ports:
     - "8125:8125/udp"
-    - "8126:8126"
+  links:
+    - graphite
+
 bosun:
   build: ./bosun/
   ports:
     - "8070:8070"
     - "4242:4242"
   links:
-    - statsd
+    - graphite
     - mail
-mail:
-  image: catatnight/postfix
-  ports:
-    - "25:25"
-  env_file: ./mail/postfix.conf
-graphite_producer:
-  build: ./graphite_producer
-  links:
-    - statsd
