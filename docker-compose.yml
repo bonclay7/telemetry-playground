@@ -1,0 +1,22 @@
+statsd:
+  image: hopsoft/graphite-statsd
+  ports:
+    - "80:80"
+    - "2003-2004:2003-2004"
+    - "2023-2024:2023-2024"
+    - "8125:8125/udp"
+    - "8126:8126"
+bosun:
+  build: ./bosun/
+  ports:
+    - "8070:8070"
+    - "4242:4242"
+  links:
+    - statsd
+    - mail
+mail:
+  image: catatnight/postfix
+  ports:
+    - "25:25"
+  env_file: ./mail/postfix.conf
+
