@@ -13,12 +13,19 @@ graphite:
     - "2003-2004:2003-2004"
     - "2023-2024:2023-2024"
 
+influxdb:
+  image: tutum/influxdb:0.10
+  ports:
+    - "8083:8083"
+    - "8086:8086"
+
 statsd:
   build: ./statsd/
   ports:
     - "8125:8125/udp"
   links:
     - graphite
+    - influxdb
 
 statsd_producer:
   build: ./statsd_producer
@@ -33,3 +40,4 @@ bosun:
   links:
     - graphite
     - mail
+
